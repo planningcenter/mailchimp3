@@ -28,11 +28,11 @@ gem install mailchimp3 (eventually)
     # /lists
     ```
 
-3. For IDs, treat the object like a hash (use square brackets), and chain method calls together.
+3. For IDs, treat the object like a hash (use square brackets).
 
     ```ruby
-    api.lists[1].members
-    # /lists/1/members
+    api.lists['abc123'].members
+    # /lists/abc123/members
     ```
 
 4. To execute the request, use `get`, `post`, `patch`, or `delete`, optionally passing arguments.
@@ -40,8 +40,8 @@ gem install mailchimp3 (eventually)
     ```ruby
     api.lists.get(count: 25)
     # GET /lists?count=25
-    api.lists[1].members[2].get
-    # GET /lists/1/members/2
+    api.lists['abc123'].members['cde345'].get
+    # GET /lists/abc123/members/cde345
     ```
 
 ## Example
@@ -116,11 +116,11 @@ api.lists.post(
 
 ```ruby
 # collection
-api.lists[1].members.get(count: 25)
+api.lists['abc123'].members.get(count: 25)
 # => { members: array_of_resources }
 
 # single resource
-api.lists[1].members[2].get
+api.lists['abc123'].members['cde345'].get
 # => resource_hash
 ```
 
@@ -129,7 +129,7 @@ api.lists[1].members[2].get
 `post()` sends a POST request to create a new resource.
 
 ```ruby
-api.lists[1].members.post(...)
+api.lists['abc123'].members.post(...)
 # => resource_hash
 ```
 
@@ -138,7 +138,7 @@ api.lists[1].members.post(...)
 `patch()` sends a PATCH request to update an existing resource.
 
 ```ruby
-api.lists[1].members[2].patch(...)
+api.lists['abc123'].members['cde345'].patch(...)
 # => resource_hash
 ```
 
@@ -147,7 +147,7 @@ api.lists[1].members[2].patch(...)
 `delete()` sends a DELETE request to delete an existing resource. This method returns `true` if the delete was successful.
 
 ```ruby
-api.lists[1].members[2].delete
+api.lists['abc123'].members['cde345'].delete
 # => true
 ```
 
