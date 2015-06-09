@@ -4,7 +4,7 @@ require 'mailchimp3/version'
 
 Gem::Specification.new do |s|
   s.name        = "mailchimp3"
-  s.version     = Mailchimp3::VERSION
+  s.version     = MailChimp3::VERSION
   s.homepage    = "https://github.com/seven1m/mailchimp3"
   s.summary     = "wrapper for MailChimp's 3.0 API"
   s.description = "mailchimp3 is a gem for working with MailChimp's RESTful JSON API documented at http://kb.mailchimp.com/api/ using HTTP basic auth or OAuth 2.0. This library can talk to any endpoint the API provides, since it is written to build endpoint URLs dynamically using method_missing."
