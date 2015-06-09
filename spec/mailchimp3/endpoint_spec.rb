@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 require 'json'
 
-describe Mailchimp3::Endpoint do
+describe MailChimp3::Endpoint do
   let(:base) { described_class.new(basic_auth_key: 'key-us2') }
 
   subject { base }
@@ -70,7 +70,7 @@ describe Mailchimp3::Endpoint do
       it 'raises a NotFound error' do
         error = begin
                   subject.get
-                rescue Mailchimp3::Errors::NotFound => e
+                rescue MailChimp3::Errors::NotFound => e
                   e
                 end
         expect(error.status).to eq(404)
@@ -96,7 +96,7 @@ describe Mailchimp3::Endpoint do
       it 'raises a ClientError error' do
         expect {
           subject.get
-        }.to raise_error(Mailchimp3::Errors::ClientError)
+        }.to raise_error(MailChimp3::Errors::ClientError)
       end
     end
 
@@ -118,7 +118,7 @@ describe Mailchimp3::Endpoint do
       it 'raises a ServerError error' do
         expect {
           subject.get
-        }.to raise_error(Mailchimp3::Errors::ServerError)
+        }.to raise_error(MailChimp3::Errors::ServerError)
       end
     end
   end

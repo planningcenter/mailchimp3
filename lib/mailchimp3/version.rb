@@ -1,3 +1,3 @@
-module Mailchimp3
+module MailChimp3
   VERSION = '0.1.0'
 end

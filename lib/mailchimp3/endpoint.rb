@@ -1,7 +1,7 @@
 require 'faraday'
 require 'faraday_middleware'
 
-module Mailchimp3
+module MailChimp3
   class Endpoint
     attr_reader :url, :last_result
 

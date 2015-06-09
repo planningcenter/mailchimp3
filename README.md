@@ -1,4 +1,4 @@
-# Mailchimp3
+# MailChimp3
 
 [![Circle CI](https://circleci.com/gh/seven1m/mailchimp3/tree/master.svg?style=svg)](https://circleci.com/gh/seven1m/mailchimp3/tree/master)
 
@@ -16,9 +16,9 @@ gem install mailchimp3 (eventually)
 
     ```ruby
     # authenticate with HTTP Basic:
-    api = Mailchimp3.new(basic_auth_key: 'my key')
+    api = MailChimp3.new(basic_auth_key: 'my key')
     # ...or authenticate with an OAuth2 access token (use the 'oauth2' gem to obtain the token)
-    api = Mailchimp3.new(oauth_access_token: 'token')
+    api = MailChimp3.new(oauth_access_token: 'token')
     ```
 
 2. Call a method on the api object to build the endpoint path.
@@ -49,7 +49,7 @@ gem install mailchimp3 (eventually)
 ```ruby
 require 'mailchimp3'
 
-api = Mailchimp3.new(basic_auth_key: 'abc123abc123abc123abc123abc123ab-us2')
+api = MailChimp3.new(basic_auth_key: 'abc123abc123abc123abc123abc123ab-us2')
 api.lists.post(
   name: 'Church.IO',
   email_type_option: false,
@@ -157,15 +157,15 @@ The following errors may be raised by the library, depending on the API response
 
 | HTTP Status Codes   | Error Class                                                                   |
 | ------------------- | ----------------------------------------------------------------------------- |
-| 400                 | `Mailchimp3::Errors::BadRequest` < `Mailchimp3::Errors::ClientError`          |
-| 401                 | `Mailchimp3::Errors::Unauthorized` < `Mailchimp3::Errors::ClientError`        |
-| 403                 | `Mailchimp3::Errors::Forbidden` < `Mailchimp3::Errors::ClientError`           |
-| 404                 | `Mailchimp3::Errors::NotFound` < `Mailchimp3::Errors::ClientError`            |
-| 405                 | `Mailchimp3::Errors::MethodNotAllowed` < `Mailchimp3::Errors::ClientError`    |
-| 422                 | `Mailchimp3::Errors::UnprocessableEntity` < `Mailchimp3::Errors::ClientError` |
-| other 4xx errors    | `Mailchimp3::Errors::ClientError`                                             |
-| 500                 | `Mailchimp3::Errors::InternalServerError` < `Mailchimp3::Errors::ServerError` |
-| other 5xx errors    | `Mailchimp3::Errors::ServerError`                                             |
+| 400                 | `MailChimp3::Errors::BadRequest` < `MailChimp3::Errors::ClientError`          |
+| 401                 | `MailChimp3::Errors::Unauthorized` < `MailChimp3::Errors::ClientError`        |
+| 403                 | `MailChimp3::Errors::Forbidden` < `MailChimp3::Errors::ClientError`           |
+| 404                 | `MailChimp3::Errors::NotFound` < `MailChimp3::Errors::ClientError`            |
+| 405                 | `MailChimp3::Errors::MethodNotAllowed` < `MailChimp3::Errors::ClientError`    |
+| 422                 | `MailChimp3::Errors::UnprocessableEntity` < `MailChimp3::Errors::ClientError` |
+| other 4xx errors    | `MailChimp3::Errors::ClientError`                                             |
+| 500                 | `MailChimp3::Errors::InternalServerError` < `MailChimp3::Errors::ServerError` |
+| other 5xx errors    | `MailChimp3::Errors::ServerError`                                             |
 
 The exception object has the following methods:
 
@@ -195,7 +195,7 @@ The `message` should be a simple string given by the API, e.g. "Resource Not Fou
 }
 ```
 
-Alternatively, you may rescue `Mailchimp3::Errors::BaseError` and branch your code based on
+Alternatively, you may rescue `MailChimp3::Errors::BaseError` and branch your code based on
 the status code returned by calling `error.status`.
 
 ## Copyright & License

@@ -1,4 +1,4 @@
-module Mailchimp3
+module MailChimp3
   module Errors
     class AuthRequiredError < StandardError; end
 
