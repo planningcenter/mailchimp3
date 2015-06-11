@@ -11,39 +11,119 @@ documented at [kb.mailchimp.com/api](http://kb.mailchimp.com/api/).
 gem install mailchimp3 (eventually)
 ```
 
-## Usage
+## Usage with HTTP Basic Auth
 
-1. Create a new API object, passing in your credentials (either HTTP Basic or OAuth2 access token):
+1. Set your HTTP Basic auth key somewhere in your app
+   (probably an initializer if using Rails):
+
+   ```ruby
+   MailChimp3.config.basic_auth_key = 'key-us2'
+   ```
+
+2. Create a new API object and use it:
+
+   ```ruby
+   # HTTP Basic
+   api = MailChimp3.new
+   ```
+
+3. Call a method on the api object to build the endpoint path.
+
+   ```ruby
+   api.lists
+   # /lists
+   ```
+
+4. For IDs, treat the object like a hash (use square brackets).
+
+   ```ruby
+   api.lists['abc123'].members
+   # /lists/abc123/members
+   ```
+
+5. To execute the request, use `get`, `post`, `patch`, or `delete`, optionally passing arguments.
+
+   ```ruby
+   api.lists.get(count: 25)
+   # GET /lists?count=25
+   api.lists['abc123'].members['cde345'].get
+   # GET /lists/abc123/members/cde345
+   ```
+
+### Usage with OAuth 2
+
+1. Set your OAuth client id and secret somewhere in your app
+   (probably an initializer if using Rails):
+
+   ```ruby
+   MailChimp3.config.client_id = 'abc123'
+   MailChimp3.config.client_secret = 'xyz456'
+   ```
+
+2. (First time for each user) Get an OAuth 2 token by calling `MailChimp3.oauth.authorize_url` and redirect your user to it:
+
+   ```ruby
+   url = MailChimp3.oauth.authorize_url(
+     redirect_uri: 'http://example.com/oauth/callback'
+   )
+   redirect_to url
+   ```
+
+3. Upon redirect back to your app (in your `/oauth/callback` action),
+   call `MailChimp3.oauth.complete_auth`, passing in the `code` param
+   and the `redirect_uri` again.
+
+   ```ruby
+   data = MailChimp3.oauth.complete_auth(
+     params[:code],
+     redirect_uri: 'http://example.com/oauth/callback'
+   )
+   ```
+
+   The hash returned looks like this:
+
+   ```ruby
+   {
+     token: <OAuth2::AccessToken>
+     token_string: 'abc123',
+     metadata: {
+       dc: 'us2'
+     }
+   }
+   ```
+
+   Then get the authentication token and data center, and store it on
+   your user record for later use:
+
+   ```ruby
+   user.update_attributes(
+     mailchimp_auth_token: data[:token_string],
+     mailchimp_data_center: data[:metadata][:dc]
+   )
+   ```
+
+4. (Subsequent times for user) Instantiate the api object, passing in the
+   auth token and data center:
+
+    **Option 1**: Pass in the user object, assuming it has the following methods:
+
+    * `mailchimp_auth_token` (returns the oauth2 token string)
+    * `mailchimp_data_center` (returns the mailchimp data center string, e.g. `us2`)
 
     ```ruby
-    # authenticate with HTTP Basic:
-    api = MailChimp3.new(basic_auth_key: 'my key')
-    # ...or authenticate with an OAuth2 access token (use the 'oauth2' gem to obtain the token)
-    api = MailChimp3.new(oauth_access_token: 'token')
+    api = MailChimp3.new(user)
     ```
 
-2. Call a method on the api object to build the endpoint path.
+    **Option 2**: Pass in the individual components as named arguments:
 
     ```ruby
-    api.lists
-    # /lists
+    api = MailChimp3.new(
+      auth_token: user.mailchimp_auth_token,
+      data_center: user.mailchimp_data_center
+    )
     ```
 
-3. For IDs, treat the object like a hash (use square brackets).
-
-    ```ruby
-    api.lists['abc123'].members
-    # /lists/abc123/members
-    ```
-
-4. To execute the request, use `get`, `post`, `patch`, or `delete`, optionally passing arguments.
-
-    ```ruby
-    api.lists.get(count: 25)
-    # GET /lists?count=25
-    api.lists['abc123'].members['cde345'].get
-    # GET /lists/abc123/members/cde345
-    ```
+4. Use the `api` instance to make API calls!
 
 ## Example
 

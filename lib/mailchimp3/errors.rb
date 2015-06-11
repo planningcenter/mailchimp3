@@ -1,6 +1,7 @@
 module MailChimp3
   module Errors
     class AuthRequiredError < StandardError; end
+    class DataCenterRequiredError < StandardError; end
 
     class BaseError < StandardError
       attr_reader :status, :details

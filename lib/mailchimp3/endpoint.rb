@@ -5,11 +5,13 @@ module MailChimp3
   class Endpoint
     attr_reader :url, :last_result
 
-    def initialize(oauth_access_token: nil, basic_auth_key: nil, connection: nil, url: nil)
+    def initialize(oauth_access_token: nil, basic_auth_key: nil, dc: nil, url: nil)
       @oauth_access_token = oauth_access_token
       @basic_auth_key = basic_auth_key
+      @dc = dc
+      @dc ||= @basic_auth_key.split('-').last if @basic_auth_key
       @url = url || _build_url
-      @connection = connection || _build_connection
+      fail Errors::DataCenterRequiredError, 'You must pass dc.' unless @dc || @url
       @cache = {}
     end
 
@@ -33,26 +35,26 @@ module MailChimp3
     end
 
     def get(params = {})
-      @last_result = @connection.get(@url, params)
+      @last_result = _connection.get(@url, params)
       _build_response(@last_result)
     end
 
     def post(body = {})
-      @last_result = @connection.post(@url) do |req|
+      @last_result = _connection.post(@url) do |req|
         req.body = _build_body(body)
       end
       _build_response(@last_result)
     end
 
     def patch(body = {})
-      @last_result = @connection.patch(@url) do |req|
+      @last_result = _connection.patch(@url) do |req|
         req.body = _build_body(body)
       end
       _build_response(@last_result)
     end
 
     def delete
-      @last_result = @connection.delete(@url)
+      @last_result = _connection.delete(@url)
       if @last_result.status == 204
         true
       else
@@ -105,18 +107,18 @@ module MailChimp3
       @cache[path] ||= begin
         self.class.new(
           url: File.join(url, path.to_s),
-          connection: @connection
+          basic_auth_key: @basic_auth_key,
+          oauth_access_token: @oauth_access_token
         )
       end
     end
 
     def _build_url
-      data_center = @basic_auth_key.split('-').last
-      "https://#{data_center}.api.mailchimp.com/3.0"
+      "https://#{@dc}.api.mailchimp.com/3.0"
     end
 
-    def _build_connection
-      Faraday.new(url: url) do |faraday|
+    def _connection
+      @connection ||= Faraday.new(url: url) do |faraday|
         faraday.adapter :excon
         faraday.response :json, content_type: /\bjson$/
         if @basic_auth_key
