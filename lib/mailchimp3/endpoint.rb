@@ -23,17 +23,6 @@ module MailChimp3
       _build_endpoint(id.to_s)
     end
 
-    def respond_to?(method_name)
-      endpoint = _build_endpoint(method_name.to_s)
-      begin
-        endpoint.get
-      rescue Errors::NotFound
-        false
-      else
-        true
-      end
-    end
-
     def get(params = {})
       @last_result = _connection.get(@url, params)
       _build_response(@last_result)
