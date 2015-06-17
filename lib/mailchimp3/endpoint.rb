@@ -30,14 +30,14 @@ module MailChimp3
 
     def post(body = {})
       @last_result = _connection.post(@url) do |req|
-        req.body = _build_body(body)
+        req.body = body.to_json
       end
       _build_response(@last_result)
     end
 
     def patch(body = {})
       @last_result = _connection.patch(@url) do |req|
-        req.body = _build_body(body)
+        req.body = body.to_json
       end
       _build_response(@last_result)
     end
@@ -76,20 +76,9 @@ module MailChimp3
       when 500..599
         fail Errors::ServerError, result
       else
+        binding.pry
         fail "unknown status #{result.status}"
       end
-    end
-
-    def _build_body(body)
-      if _needs_url_encoded?
-        Faraday::Utils.build_nested_query(body)
-      else
-        body.to_json
-      end
-    end
-
-    def _needs_url_encoded?
-      @url =~ /oauth\/[a-z]+\z/
     end
 
     def _build_endpoint(path)
@@ -103,7 +92,9 @@ module MailChimp3
     end
 
     def _build_url
-      "https://#{@dc}.api.mailchimp.com/3.0"
+      url = "https://#{@dc}.api.mailchimp.com/3.0"
+      url << '/' if url =~ /3\.0\z/ # workaround for the api requiring a slash on the root urls
+      url
     end
 
     def _connection
