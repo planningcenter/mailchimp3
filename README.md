@@ -105,25 +105,14 @@ gem install mailchimp3 (eventually)
 4. (Subsequent times for user) Instantiate the api object, passing in the
    auth token and data center:
 
-    **Option 1**: Pass in the user object, assuming it has the following methods:
+   ```ruby
+   api = MailChimp3.new(
+     oauth_auth_token: user.mailchimp_auth_token,
+     dc: user.mailchimp_data_center
+   )
+   ```
 
-    * `mailchimp_auth_token` (returns the oauth2 token string)
-    * `mailchimp_data_center` (returns the mailchimp data center string, e.g. `us2`)
-
-    ```ruby
-    api = MailChimp3.new(user)
-    ```
-
-    **Option 2**: Pass in the individual components as named arguments:
-
-    ```ruby
-    api = MailChimp3.new(
-      auth_token: user.mailchimp_auth_token,
-      data_center: user.mailchimp_data_center
-    )
-    ```
-
-4. Use the `api` instance to make API calls!
+5. Use the `api` instance to make API calls!
 
 ## Example
 
