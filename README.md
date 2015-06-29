@@ -8,7 +8,7 @@ documented at [kb.mailchimp.com/api](http://kb.mailchimp.com/api/).
 ## Installation
 
 ```
-gem install mailchimp3 (eventually)
+gem install mailchimp3
 ```
 
 ## Usage with HTTP Basic Auth
