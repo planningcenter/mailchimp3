@@ -5,6 +5,9 @@
 `mailchimp3` is a Rubygem that provides a very thin, simple wrapper around the MailChimp RESTful JSON API version 3.0
 documented at [kb.mailchimp.com/api](http://kb.mailchimp.com/api/).
 
+This wrapper is very low-level -- you'll still be dealing with individual GET, POST, PATCH, and DELETE requests, but the gem
+does handle the OAuth2 flow (getting a token) and passing the auth token in every request.
+
 ## Installation
 
 ```
