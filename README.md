@@ -3,7 +3,8 @@
 [![Circle CI](https://circleci.com/gh/seven1m/mailchimp3/tree/master.svg?style=svg)](https://circleci.com/gh/seven1m/mailchimp3/tree/master)
 
 `mailchimp3` is a Rubygem that provides a very thin, simple wrapper around the MailChimp RESTful JSON API version 3.0
-documented at [kb.mailchimp.com/api](http://kb.mailchimp.com/api/).
+documented at [kb.mailchimp.com/api](http://kb.mailchimp.com/api/). (The wrapper also works with the 2.0 API if you
+just use the `post` method. See 2.0 section later in this document.)
 
 This wrapper is very low-level -- you'll still be dealing with individual GET, POST, PATCH, and DELETE requests, but the gem
 does handle the OAuth2 flow (getting a token) and passing the auth token in every request.
@@ -270,6 +271,21 @@ The `message` should be a simple string given by the API, e.g. "Resource Not Fou
 
 Alternatively, you may rescue `MailChimp3::Errors::BaseError` and branch your code based on
 the status code returned by calling `error.status`.
+
+## MailChimp 2.0 API
+
+This wrapper works with MailChimp's soon-to-be-deprecated 2.0 API. You need only use the `v2` path and the `post` method
+for all your calls, like so:
+
+```ruby
+api.v2.lists['member-activity'].post(id: 'abc123', emails: ['tim@timmorgan.org'])
+```
+
+Some notes:
+
+1. Call `v2` to switch to the 2.0 API, then add other path elements after that.
+2. Any path element with a hyphen will need to use the array access syntax, e.g. `lists['member-activity']` not `lists.member-activity`.
+3. You must use the `post` method for every call.
 
 ## Copyright & License
 

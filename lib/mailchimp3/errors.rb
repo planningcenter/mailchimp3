@@ -8,7 +8,9 @@ module MailChimp3
 
       def initialize(response)
         @status = response.status
-        @message = if response.body.is_a?(Hash)
+        @message = if response.body.is_a?(Hash) && response.body['error']
+                     "#{response.body['name']}: #{response.body['error']}"
+                   elsif response.body.is_a?(Hash)
                      "#{response.body['title']}: #{response.body['detail']}"
                    else
                      response.body.to_s
