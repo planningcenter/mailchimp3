@@ -278,7 +278,7 @@ This wrapper works with MailChimp's soon-to-be-deprecated 2.0 API. You need only
 for all your calls, like so:
 
 ```ruby
-api.v2.lists['member-activity'].post(id: 'abc123', emails: ['tim@timmorgan.org'])
+api.v2.lists['member-activity'].post(id: 'abc123', emails: [{email: 'tim@timmorgan.org'}])
 ```
 
 Some notes:
