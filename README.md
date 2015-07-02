@@ -7,7 +7,8 @@ documented at [kb.mailchimp.com/api](http://kb.mailchimp.com/api/). (The wrapper
 just use the `post` method. See 2.0 section later in this document.)
 
 This wrapper is very low-level -- you'll still be dealing with individual GET, POST, PATCH, and DELETE requests, but the gem
-does handle the OAuth2 flow (getting a token) and passing the auth token in every request.
+handles the OAuth2 flow (getting a token), passing the auth token in every request, and raises descriptive errors you can easily rescue
+in your own code.
 
 ## Installation
 
