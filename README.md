@@ -230,17 +230,17 @@ api.lists['abc123'].members['cde345'].delete
 
 The following errors may be raised by the library, depending on the API response status code.
 
-| HTTP Status Codes   | Error Class                                                                   |
-| ------------------- | ----------------------------------------------------------------------------- |
-| 400                 | `MailChimp3::Errors::BadRequest` < `MailChimp3::Errors::ClientError`          |
-| 401                 | `MailChimp3::Errors::Unauthorized` < `MailChimp3::Errors::ClientError`        |
-| 403                 | `MailChimp3::Errors::Forbidden` < `MailChimp3::Errors::ClientError`           |
-| 404                 | `MailChimp3::Errors::NotFound` < `MailChimp3::Errors::ClientError`            |
-| 405                 | `MailChimp3::Errors::MethodNotAllowed` < `MailChimp3::Errors::ClientError`    |
-| 422                 | `MailChimp3::Errors::UnprocessableEntity` < `MailChimp3::Errors::ClientError` |
-| other 4xx errors    | `MailChimp3::Errors::ClientError`                                             |
-| 500                 | `MailChimp3::Errors::InternalServerError` < `MailChimp3::Errors::ServerError` |
-| other 5xx errors    | `MailChimp3::Errors::ServerError`                                             |
+| HTTP Status Codes   | Specific Error Class                      | Generic Error Class               |
+| ------------------- | ----------------------------------------- | --------------------------------- |
+| 400                 | `MailChimp3::Errors::BadRequest`          | `MailChimp3::Errors::ClientError` |
+| 401                 | `MailChimp3::Errors::Unauthorized`        | `MailChimp3::Errors::ClientError` |
+| 403                 | `MailChimp3::Errors::Forbidden`           | `MailChimp3::Errors::ClientError` |
+| 404                 | `MailChimp3::Errors::NotFound`            | `MailChimp3::Errors::ClientError` |
+| 405                 | `MailChimp3::Errors::MethodNotAllowed`    | `MailChimp3::Errors::ClientError` |
+| 422                 | `MailChimp3::Errors::UnprocessableEntity` | `MailChimp3::Errors::ClientError` |
+| other 4xx errors    | `MailChimp3::Errors::ClientError`         |                                   |
+| 500                 | `MailChimp3::Errors::InternalServerError` | `MailChimp3::Errors::ServerError` |
+| other 5xx errors    | `MailChimp3::Errors::ServerError`         |                                   |
 
 The exception object has the following methods:
 
