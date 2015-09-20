@@ -112,7 +112,7 @@ gem install mailchimp3
 
    ```ruby
    api = MailChimp3.new(
-     oauth_auth_token: user.mailchimp_auth_token,
+     oauth_access_token: user.mailchimp_auth_token,
      dc: user.mailchimp_data_center
    )
    ```
