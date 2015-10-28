@@ -1,5 +1,5 @@
 require 'faraday'
-require 'faraday_middleware'
+require 'json'
 
 module MailChimp3
   class Endpoint
@@ -65,31 +65,37 @@ module MailChimp3
     private
 
     def _build_response(result)
-      case result.status
+      body = _parse_body(result)
+      case (status = result.status)
       when 200..299
-        result.body
+        body
       when 400
-        fail Errors::BadRequest, result
+        fail Errors::BadRequest, status: status, body: body
       when 401
-        fail Errors::Unauthorized, result
+        fail Errors::Unauthorized, status: status, body: body
       when 403
-        fail Errors::Forbidden, result
+        fail Errors::Forbidden, status: status, body: body
       when 404
-        fail Errors::NotFound, result
+        fail Errors::NotFound, status: status, body: body
       when 405
-        fail Errors::MethodNotAllowed, result
+        fail Errors::MethodNotAllowed, status: status, body: body
       when 422
-        fail Errors::UnprocessableEntity, result
+        fail Errors::UnprocessableEntity, status: status, body: body
       when 400..499
-        fail Errors::ClientError, result
+        fail Errors::ClientError, status: status, body: body
       when 500
-        fail Errors::InternalServerError, result
+        fail Errors::InternalServerError, status: status, body: body
       when 500..599
-        fail Errors::ServerError, result
+        fail Errors::ServerError, status: status, body: body
       else
-        binding.pry
-        fail "unknown status #{result.status}"
+        fail "unknown status #{status}"
       end
+    end
+
+    def _parse_body(result)
+      JSON.parse(result.body)
+    rescue JSON::ParserError
+      raise Errors::ServerError, status: result.status, body: result.body
     end
 
     def _build_endpoint(path)
@@ -114,7 +120,6 @@ module MailChimp3
     def _connection
       @connection ||= Faraday.new(url: url) do |faraday|
         faraday.adapter :excon
-        faraday.response :json, content_type: /\bjson$/
         if @basic_auth_key
           faraday.basic_auth '', @basic_auth_key
         elsif @oauth_access_token

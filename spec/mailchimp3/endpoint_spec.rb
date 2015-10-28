@@ -68,13 +68,16 @@ describe MailChimp3::Endpoint do
       end
 
       it 'raises a NotFound error' do
-        error = begin
-                  subject.get
-                rescue MailChimp3::Errors::NotFound => e
-                  e
-                end
-        expect(error.status).to eq(404)
-        expect(error.message).to eq('Resource Not Found: The requested resource could not be found.')
+        expect { subject.get }.to raise_error do |error|
+          expect(error).to be_a(MailChimp3::Errors::NotFound)
+          expect(error.status).to eq(404)
+          expect(error.message).to eq('Resource Not Found: The requested resource could not be found.')
+          expect(error.details).to eq(
+            'status' => 404,
+            'title' => 'Resource Not Found',
+            'detail' => 'The requested resource could not be found.'
+          )
+        end
       end
     end
 
@@ -94,9 +97,7 @@ describe MailChimp3::Endpoint do
       end
 
       it 'raises a ClientError error' do
-        expect {
-          subject.get
-        }.to raise_error(MailChimp3::Errors::ClientError)
+        expect { subject.get }.to raise_error(MailChimp3::Errors::ClientError)
       end
     end
 
@@ -116,9 +117,7 @@ describe MailChimp3::Endpoint do
       end
 
       it 'raises a ServerError error' do
-        expect {
-          subject.get
-        }.to raise_error(MailChimp3::Errors::ServerError)
+        expect { subject.get }.to raise_error(MailChimp3::Errors::ServerError)
       end
     end
   end
@@ -132,21 +131,41 @@ describe MailChimp3::Endpoint do
       }
     end
 
-    let(:result) do
-      {
-        'id'   => 'd3ed40bd7c',
-        'name' => 'Foo'
-      }
+    context do
+      let(:result) do
+        {
+          'id'   => 'd3ed40bd7c',
+          'name' => 'Foo'
+        }
+      end
+
+      before do
+        stub_request(:post, 'https://us2.api.mailchimp.com/3.0/lists')
+          .to_return(status: 201, body: result.to_json, headers: { 'Content-Type' => 'application/json; charset=utf-8' })
+        @result = subject.post(resource)
+      end
+
+      it 'returns the result of making a POST request to the endpoint' do
+        expect(@result).to eq(result)
+      end
     end
 
-    before do
-      stub_request(:post, 'https://us2.api.mailchimp.com/3.0/lists')
-        .to_return(status: 201, body: result.to_json, headers: { 'Content-Type' => 'application/json; charset=utf-8' })
-      @result = subject.post(resource)
-    end
+    context 'when the response is not valid JSON' do
+      let(:result) { 'bad' }
 
-    it 'returns the result of making a POST request to the endpoint' do
-      expect(@result).to eq(result)
+      before do
+        stub_request(:post, 'https://us2.api.mailchimp.com/3.0/lists')
+          .to_return(status: 200, body: result, headers: { 'Content-Type' => 'application/json; charset=utf-8' })
+      end
+
+      it 'raises an error' do
+        expect { subject.post(resource) }.to raise_error do |error|
+          expect(error).to be_a(MailChimp3::Errors::ServerError)
+          expect(error.status).to eq(200)
+          expect(error.message).to eq('bad')
+          expect(error.details).to be_nil
+        end
+      end
     end
   end
 

@@ -6,16 +6,16 @@ module MailChimp3
     class BaseError < StandardError
       attr_reader :status, :details
 
-      def initialize(response)
-        @status = response.status
-        @message = if response.body.is_a?(Hash) && response.body['error']
-                     "#{response.body['name']}: #{response.body['error']}"
-                   elsif response.body.is_a?(Hash)
-                     "#{response.body['title']}: #{response.body['detail']}"
+      def initialize(body:, status:)
+        @status = status
+        @message = if body.is_a?(Hash) && body['error']
+                     "#{body['name']}: #{body['error']}"
+                   elsif body.is_a?(Hash)
+                     "#{body['title']}: #{body['detail']}"
                    else
-                     response.body.to_s
+                     body.to_s
                    end
-        @details = response.body if response.body.is_a?(Hash)
+        @details = body if body.is_a?(Hash)
       end
 
       def to_s
