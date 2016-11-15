@@ -1,3 +1,7 @@
+# 1.3.0 (November 14, 2016)
+
+* Chore: Bump oauth2 to 1.2
+
 # 1.2.0 (October 28, 2015)
 
 * Fix: raise `MailChimp3::Errors::ServerError` when response JSON cannot be parsed
