@@ -1,3 +1,7 @@
+# 1.3.1 (August 8, 2017)
+
+* Chore: Be more liberal with oauth2 gem version
+
 # 1.3.0 (November 14, 2016)
 
 * Chore: Bump oauth2 to 1.2
