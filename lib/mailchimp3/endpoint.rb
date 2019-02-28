@@ -44,6 +44,13 @@ module MailChimp3
       _build_response(@last_result)
     end
 
+    def put(body = {})
+      @last_result = _connection.put(@url) do |req|
+        req.body = body.to_json
+      end
+      _build_response(@last_result)
+    end
+
     def delete
       @last_result = _connection.delete(@url)
       if @last_result.status == 204
