@@ -197,6 +197,38 @@ describe MailChimp3::Endpoint do
     end
   end
 
+  describe '#put' do
+    subject { base.lists[list_id].members[md5_hash] }
+
+    let(:list_id) { 'd3ed40bd7c' }
+    let(:member_email) { 'test@email.com' }
+    let(:md5_hash) { Digest::MD5.hexdigest(member_email) }
+    let(:resource) do
+      {
+        'email_address'   => member_email,
+        'status_if_new'   => 'subscribed'
+      }
+    end
+
+    let(:result) do
+      {
+        'id'      => md5_hash,
+        'list_id' => list_id,
+        'status'  => 'subscribed'
+      }
+    end
+
+    before do
+      stub_request(:put, "https://us2.api.mailchimp.com/3.0/lists/#{list_id}/members/#{md5_hash}")
+        .to_return(status: 200, body: result.to_json, headers: { 'Content-Type' => 'application/json; charset=utf-8' })
+      @result = subject.put(resource)
+    end
+
+    it 'returns the result of making a PUT request to the endpoint' do
+      expect(@result).to eq(result)
+    end
+  end
+
   describe '#delete' do
     subject { base.lists['d3ed40bd7c'] }
 
@@ -210,4 +242,5 @@ describe MailChimp3::Endpoint do
       expect(@result).to eq(true)
     end
   end
+
 end
