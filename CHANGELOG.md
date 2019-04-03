@@ -1,3 +1,7 @@
+# 1.3.2 (April 2, 2019)
+
+* Fix: Loosen up Excon dependency
+
 # 1.3.1 (August 8, 2017)
 
 * Chore: Be more liberal with oauth2 gem version
