@@ -1,3 +1,7 @@
+# 1.3.3 (May 19, 2019)
+
+* Fix: Loosen up Faraday dependency
+
 # 1.3.2 (April 2, 2019)
 
 * Fix: Loosen up Excon dependency
