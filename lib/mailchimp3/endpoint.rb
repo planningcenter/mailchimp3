@@ -34,7 +34,11 @@ module MailChimp3
         body[:apikey] = @oauth_access_token || @basic_auth_key if @version == 2
         req.body = body.to_json
       end
-      _build_response(@last_result)
+      if @last_result.status == 204
+        true
+      else
+        _build_response(@last_result)
+      end
     end
 
     def patch(body = {})
