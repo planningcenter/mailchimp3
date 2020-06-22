@@ -167,6 +167,17 @@ describe MailChimp3::Endpoint do
         end
       end
     end
+
+    context 'when the response is 204' do
+      before do
+        stub_request(:post, 'https://us2.api.mailchimp.com/3.0/lists')
+          .to_return(status: 204, body: nil, headers: { 'Content-Type' => 'application/json; charset=utf-8' })
+      end
+
+      it 'returns true' do
+        expect(subject.post(resource)).to eq(true)
+      end
+    end
   end
 
   describe '#patch' do
