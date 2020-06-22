@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "faraday", "~> 0.9"
-  s.add_dependency "excon", "~> 0.45"
+  s.add_dependency "excon", ">= 0.71.0"
   s.add_dependency "oauth2", "~> 1.2"
   s.add_development_dependency "rspec", "~> 3.2"
   s.add_development_dependency "webmock", "~> 1.21"
