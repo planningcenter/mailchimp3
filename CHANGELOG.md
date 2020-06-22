@@ -1,3 +1,8 @@
+# 1.4.0 (June 22, 2020)
+
+* Fix: Don't try to parse JSON on POST request for a 204 response
+* Chore: Bump minimum Excon version for CVE-2019-16779
+
 # 1.3.3 (May 19, 2019)
 
 * Fix: Loosen up Faraday dependency
