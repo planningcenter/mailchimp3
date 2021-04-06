@@ -13,8 +13,13 @@ module MailChimp3
       )
     end
 
-    def authorize_url(redirect_uri:)
-      @oauth.auth_code.authorize_url(redirect_uri: redirect_uri)
+    def authorize_url(redirect_uri:, state: nil)
+      params = {
+        redirect_uri: redirect_uri,
+        state: state,
+      }.compact
+
+      @oauth.auth_code.authorize_url(params)
     end
 
     def complete_auth(code, redirect_uri:)

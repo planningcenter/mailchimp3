@@ -13,6 +13,14 @@ describe MailChimp3::OAuth do
       )
       expect(url).to eq('https://login.mailchimp.com/oauth2/authorize?client_id=foo&redirect_uri=http%3A%2F%2Fexample.com%2Foauth%2Fcallback&response_type=code')
     end
+
+    it 'passes through an optional state param' do
+      url = subject.authorize_url(
+        redirect_uri: 'http://example.com/oauth/callback',
+        state: "123456"
+      )
+      expect(url).to eq('https://login.mailchimp.com/oauth2/authorize?client_id=foo&redirect_uri=http%3A%2F%2Fexample.com%2Foauth%2Fcallback&response_type=code&state=123456')
+    end
   end
 
   describe '#complete_auth' do
