@@ -1,3 +1,7 @@
+# 1.5.0 (April 6, 2021)
+
+* Feature: allow using a state parameter in the OAuth flow
+
 # 1.4.0 (June 22, 2020)
 
 * Fix: Don't try to parse JSON on POST request for a 204 response
