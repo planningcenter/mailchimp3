@@ -1,3 +1,10 @@
+# 1.5.1 (December 10, 2021)
+
+* Fix: Resolve faraday deprecation warning
+* Fix: Loosen `faraday` dependency to 1.x
+* Fix: Loosen `webmock` dependency to 3.x
+* Fix: Move Faraday adapter declaration to the end
+
 # 1.5.0 (April 6, 2021)
 
 * Feature: allow using a state parameter in the OAuth flow
