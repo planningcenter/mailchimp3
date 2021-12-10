@@ -1,6 +1,6 @@
 # MailChimp3
 
-[![Circle CI](https://circleci.com/gh/seven1m/mailchimp3/tree/master.svg?style=svg)](https://circleci.com/gh/seven1m/mailchimp3/tree/master)
+[![CircleCI](https://circleci.com/gh/planningcenter/mailchimp3/tree/master.svg?style=svg)](https://circleci.com/gh/planningcenter/mailchimp3/tree/master)
 
 `mailchimp3` is a Rubygem that provides a very thin, simple wrapper around the MailChimp RESTful JSON "Marketing" API version 3
 documented at [mailchimp.com/developer/marketing/api](https://mailchimp.com/developer/marketing/api/).
