@@ -81,23 +81,23 @@ module MailChimp3
       when 200..299
         body
       when 400
-        fail Errors::BadRequest, status: status, body: body
+        fail Errors::BadRequest.new(status: status, body: body)
       when 401
-        fail Errors::Unauthorized, status: status, body: body
+        fail Errors::Unauthorized.new(status: status, body: body)
       when 403
-        fail Errors::Forbidden, status: status, body: body
+        fail Errors::Forbidden.new(status: status, body: body)
       when 404
-        fail Errors::NotFound, status: status, body: body
+        fail Errors::NotFound.new(status: status, body: body)
       when 405
-        fail Errors::MethodNotAllowed, status: status, body: body
+        fail Errors::MethodNotAllowed.new(status: status, body: body)
       when 422
-        fail Errors::UnprocessableEntity, status: status, body: body
+        fail Errors::UnprocessableEntity.new(status: status, body: body)
       when 400..499
-        fail Errors::ClientError, status: status, body: body
+        fail Errors::ClientError.new(status: status, body: body)
       when 500
-        fail Errors::InternalServerError, status: status, body: body
+        fail Errors::InternalServerError.new(status: status, body: body)
       when 500..599
-        fail Errors::ServerError, status: status, body: body
+        fail Errors::ServerError.new(status: status, body: body)
       else
         fail "unknown status #{status}"
       end
@@ -106,7 +106,7 @@ module MailChimp3
     def _parse_body(result)
       JSON.parse(result.body)
     rescue JSON::ParserError
-      raise Errors::ServerError, status: result.status, body: result.body
+      raise Errors::ServerError.new(status: result.status, body: result.body)
     end
 
     def _build_endpoint(path)
