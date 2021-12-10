@@ -21,6 +21,6 @@ Gem::Specification.new do |s|
   s.add_dependency "excon", ">= 0.71.0"
   s.add_dependency "oauth2", "~> 1.2"
   s.add_development_dependency "rspec", "~> 3.2"
-  s.add_development_dependency "webmock", "~> 1.21"
+  s.add_development_dependency "webmock", "< 4"
   s.add_development_dependency "pry", "~> 0.10"
 end
