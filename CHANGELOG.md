@@ -1,3 +1,7 @@
+# unreleased
+
+* Chore: Pin `faraday` to >= 1
+
 # 1.5.1 (December 10, 2021)
 
 * Fix: Resolve faraday deprecation warning
