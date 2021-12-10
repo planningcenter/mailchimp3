@@ -131,7 +131,7 @@ module MailChimp3
     def _connection
       @connection ||= Faraday.new(url: url) do |faraday|
         if @basic_auth_key
-          faraday.basic_auth '', @basic_auth_key
+          faraday.request :basic_auth, '', @basic_auth_key
         elsif @oauth_access_token
           faraday.headers['Authorization'] = "Bearer #{@oauth_access_token}"
         else
