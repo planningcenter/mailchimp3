@@ -184,7 +184,18 @@ api.lists.post(
 }
 ```
 
-## get()
+## method_missing(endpoint_name)
+
+Anything you append to the end gets handled by `method_missing` and returns a new Endpoint object.
+This is what allows this gem work with any endpoint without the library code needing to be updated.
+
+## \[](endpoint_name_or_id)
+
+Similar to the `method_missing` above, `endpoint['whatever']` and `endpoint[123]` are handled dynamically,
+which allows you to build endpoints containing numbers, hyphens, or other characters not allowed by a
+Ruby method name.
+
+## get(params = {})
 
 `get()` works for a collection (index) and a single resource (show).
 
@@ -198,7 +209,9 @@ api.lists['abc123'].members['cde345'].get
 # => resource_hash
 ```
 
-## post()
+If the endpoint accepts parameters, you can pass them in the `params` hash.
+
+## post(body = {})
 
 `post()` sends a POST request to create a new resource.
 
@@ -207,7 +220,9 @@ api.lists['abc123'].members.post(...)
 # => resource_hash
 ```
 
-## patch()
+The parameter given is sent as the body of the request. See [Example](#example) above.
+
+## patch(body = {})
 
 `patch()` sends a PATCH request to update an existing resource.
 
@@ -215,6 +230,8 @@ api.lists['abc123'].members.post(...)
 api.lists['abc123'].members['cde345'].patch(...)
 # => resource_hash
 ```
+
+The parameter given is sent as the body of the request. See [Example](#example) above.
 
 ## delete()
 
