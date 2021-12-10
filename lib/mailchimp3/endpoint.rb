@@ -16,12 +16,12 @@ module MailChimp3
       @cache = {}
     end
 
-    def method_missing(method_name, *_args)
-      _build_endpoint(method_name.to_s)
+    def method_missing(endpoint_name, *_args)
+      _build_endpoint(endpoint_name.to_s)
     end
 
-    def [](id)
-      _build_endpoint(id.to_s)
+    def [](endpoint_name_or_id)
+      _build_endpoint(endpoint_name_or_id.to_s)
     end
 
     def get(params = {})
