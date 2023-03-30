@@ -1,6 +1,12 @@
 require_relative 'spec_helper'
 
 describe MailChimp3 do
+  describe '#new' do
+    it 'smoke test' do
+      expect(subject.new(basic_auth_key: 'key-us2').url).not_to be_nil
+    end
+  end
+
   describe '#config' do
     it 'returns configuration object' do
       subject.config.client_id = 'foo'
