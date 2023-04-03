@@ -5,8 +5,8 @@ require_relative 'mailchimp3/errors'
 module MailChimp3
   module_function
 
-  def new(*args)
-    Endpoint.new(*args)
+  def new(**kwargs)
+    Endpoint.new(**kwargs)
   end
 
   def config
