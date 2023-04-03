@@ -1,3 +1,7 @@
+# 1.5.2 (April 4, 2023)
+
+* Fix: Forward keyword args to `MailChimp3#new` in Ruby 3.x compatible way (#17)
+
 # 1.5.1 (December 10, 2021)
 
 * Fix: Resolve faraday deprecation warning
